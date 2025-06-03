@@ -36,6 +36,22 @@
                         <button type="submit" class="btn btn-danger bi bi-box-arrow-right"> Logout</button>
                     </form>
                 </div>
+                <div class="mt-2">
+                	<form action="dashboard" method="get" class="d-flex">
+					    <label for="sort" class="me-2 fw-bold sort-down ">Sort by:</label>
+					    <select name="sort" id="sort" class="form-select me-2 w-25" onchange="this.form.submit()">
+					        <option value="" class="form-control">--Select--</option>
+					        <option value="title" class="form-control" ${param.sort == 'title' ? 'selected' : ''}>Title</option>
+					        <option value="date" class="form-control" ${param.sort == 'date' ? 'selected' : ''}>Date</option>
+
+					    </select>
+					    
+					    
+					    
+					    
+					</form>
+
+                </div>
                 <div class="mt-3">
 	                <c:if test="${not empty appointments}">
 						    <h4>Your Appointments</h4>

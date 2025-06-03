@@ -31,6 +31,7 @@
         <div class="col-md-6">
             <div class="card shadow p-4 rounded rounded-2 border border-3 border-primary" >
                 <h2 class="text-center mb-4 bi bi-person-fill"> Login User </h2>
+                
                 <table>
                 <tr>
                 	<td>Username : </td><td><input type="text" class="form-control" required="required" name="name"/><td>

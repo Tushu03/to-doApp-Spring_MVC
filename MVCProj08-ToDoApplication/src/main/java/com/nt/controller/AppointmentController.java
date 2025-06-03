@@ -1,6 +1,7 @@
 package com.nt.controller;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,22 @@ public class AppointmentController
 	private IAppointmentService service;
 	
 	@RequestMapping("/dashboard")
-	public String backToDashboard(HttpSession session,Model model) {
+	public String backToDashboard(@RequestParam(required = false) String sort,HttpSession session,Model model) {
 		 User user = (User) session.getAttribute("loggeduser");
 		    if (user != null) {
-		        List<Appointment> list = service.getAppointmentsByUser(user);
+		        List<Appointment> appointments = service.getAppointmentsByUser(user);
+		        if (sort != null) {
+		            switch (sort) {
+		                case "title":
+		                    appointments.sort((a1,a2)->a1.getTitle().compareTo(a2.getTitle()));
+		                    break;
+		                case "date":
+		                    appointments.sort(Comparator.comparing(Appointment::getAppDate));
+		                    break;
+		            }
+		        }
 		        model.addAttribute("user", user.getName());
-		        model.addAttribute("appointments", list);
+		        model.addAttribute("appointments", appointments);
 		    }
 		    return "dashboard";
 		
