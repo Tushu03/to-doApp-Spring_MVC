@@ -51,6 +51,25 @@ public class IAppointmentServiceImpl implements IAppointmentService{
 	    managedUser.getAppointments().remove(appointment);
 	    repo.delete(appointment);
 	}
+	@Override
+	public String editAppointementByApp(Appointment app) 
+	{	
+		
+		    Appointment existing = repo.findById(app.getId()).orElseThrow(()->new IllegalArgumentException("Appointement not found"));
+		    if (existing != null) {
+		        existing.setTitle(app.getTitle());
+		        existing.setAppDate(app.getAppDate());
+		        existing.setNote(app.getNote());
+		        repo.save(existing);  // <- this is update
+		        return "Appointment updated successfully";
+		    } else {
+		        return "Appointment not found";
+		    }
+		
+
+		
+		//return repo.save(app).getId()+" Appointement Updated ";
+	}
 
 
 	

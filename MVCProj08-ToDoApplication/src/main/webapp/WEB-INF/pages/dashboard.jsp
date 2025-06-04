@@ -79,7 +79,7 @@
 						                
 						                 <td>${appointment.appDate}</td>
 						                 <td>${appointment.note}<td>
-						                 <td><a href="appointments/edit/${appointment.id }" class="btn btn-warning mx-1 bi bi-pen-fill"></a>
+						                 <td><a href="appointments/editPage/${appointment.id }" class="btn btn-warning mx-1 bi bi-pen-fill"></a>
 						                 	 <a href="${pageContext.request.contextPath}/appointment/deleteConfirm/${appointment.id}" class="btn btn-danger mx-1 bi bi-trash-fill"></a>
 						                 </td>
 						                 
