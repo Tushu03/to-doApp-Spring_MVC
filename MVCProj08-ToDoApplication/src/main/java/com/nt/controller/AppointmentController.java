@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nt.modal.Appointment;
 import com.nt.modal.User;
@@ -74,6 +75,7 @@ public class AppointmentController
             					@RequestParam String dateTime,  // Format: 2025-06-01T15:30
             					@RequestParam(required = false) String notes,
             					HttpSession session,
+            					RedirectAttributes redirattrs,
             					Model model) 
 	{
 		User user=(User) session.getAttribute("loggeduser");
@@ -86,7 +88,14 @@ public class AppointmentController
 		Appointment appointment=new Appointment(title, date);
 		appointment.setNote(notes);
 		appointment.setUser(user);
-		service.addAppointment(appointment);
+		try {
+			 service.addAppointment(appointment);
+			 redirattrs.addFlashAttribute("successMsg", "Appointment saved successfully!");
+		}
+		catch (Exception e) {
+			 redirattrs.addFlashAttribute("errorMsg", "Failed to save appointment.");
+		}
+		
 		
 		
 		
@@ -122,10 +131,19 @@ public class AppointmentController
 	
 	
 	@PostMapping("/appointments/edit")
-	public String editAppointment(@ModelAttribute("app") Appointment app, Model model) 
+	public String editAppointment(@ModelAttribute("app") Appointment app, RedirectAttributes redir) 
 	{
-		String msg=service.editAppointementByApp(app);
-		System.out.println(msg);
+		try {
+			String msg=service.editAppointementByApp(app);
+			redir.addFlashAttribute("successMsg",msg);
+			System.out.println(msg);
+			
+		}
+		catch(Exception e) 
+		{
+			redir.addFlashAttribute("errorMsg","Failed to Edit Appointment");
+			
+		}
 		
 		return "redirect:/dashboard";
 		

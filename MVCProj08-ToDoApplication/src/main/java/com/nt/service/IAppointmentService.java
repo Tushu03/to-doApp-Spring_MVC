@@ -11,7 +11,7 @@ public interface IAppointmentService
 	public List<Appointment> getAppointmentsByUser(User user);
 	
 	public Appointment findById(Integer id);
-	public void deleteAppointmentFromUser(Integer appointmentId, User user);
+	public String deleteAppointmentFromUser(Integer appointmentId, User user);
 	
 	public String editAppointementByApp(Appointment app);
 

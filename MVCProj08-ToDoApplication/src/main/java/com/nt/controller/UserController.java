@@ -64,7 +64,7 @@ public class UserController
 		if(user!=null) 
 		{
 			 if (user.getName().equals(name) && user.getPass().equals(pass)) {
-		            model.addAttribute("message", "Login successful!");
+		            model.addAttribute("success", "Login successful!");
 		            model.addAttribute("user",user.getName());
 		            session.setAttribute("loggeduser", user);
 		            

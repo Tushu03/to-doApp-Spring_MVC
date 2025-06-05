@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nt.modal.Appointment;
 import com.nt.modal.User;
@@ -42,15 +43,20 @@ public class IAppointmentServiceImpl implements IAppointmentService{
 	}
 	@Transactional
 	@Override
-	public void deleteAppointmentFromUser(Integer appointmentId, User user) {
+	public String deleteAppointmentFromUser(Integer appointmentId, User user) {
 	    Appointment appointment = repo.findById(appointmentId)
 	        .orElseThrow(() -> new RuntimeException("Appointment not found"));
 
-	
-	    User managedUser = entityManager.find(User.class, user.getId());
-	    managedUser.getAppointments().remove(appointment);
-	    repo.delete(appointment);
+	    
+	    
+	    	 User managedUser = entityManager.find(User.class, user.getId());
+	 	    managedUser.getAppointments().remove(appointment);
+	 	    repo.delete(appointment);
+	 	    
+	     return appointmentId+" Id Appointement deleted";
+	   
 	}
+	
 	@Override
 	public String editAppointementByApp(Appointment app) 
 	{	
@@ -60,10 +66,10 @@ public class IAppointmentServiceImpl implements IAppointmentService{
 		        existing.setTitle(app.getTitle());
 		        existing.setAppDate(app.getAppDate());
 		        existing.setNote(app.getNote());
-		        repo.save(existing);  // <- this is update
-		        return "Appointment updated successfully";
+		        repo.save(existing); 
+		        return app.getId()+" Appointment updated successfully";
 		    } else {
-		        return "Appointment not found";
+		        return " Appointment not found";
 		    }
 		
 

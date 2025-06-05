@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +22,10 @@
 <!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
+<!-- Toastify CSS and JS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 <body>
 
 <div class="bg-image"></div>
@@ -103,6 +108,34 @@
         </div>
     </div>
 </div>
+<c:if test="${not empty successMsg}">
+    <script>
+        Toastify({
+            text: "✅ ${fn:escapeXml(successMsg)}",
+            duration: 4000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)", // green gradient
+            close: true,
+            stopOnFocus: true
+        }).showToast();
+    </script>
+</c:if>
+
+<c:if test="${not empty errorMsg}">
+    <script>
+        Toastify({
+            text: "❌ ${fn:escapeXml(errorMsg)}",
+            duration: 5000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)", // red-orange gradient
+            close: true,
+            stopOnFocus: true
+        }).showToast();
+    </script>
+</c:if>
+
 
 </body>
 </html>
