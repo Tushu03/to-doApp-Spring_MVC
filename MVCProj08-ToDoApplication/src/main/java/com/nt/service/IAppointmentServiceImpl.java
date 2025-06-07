@@ -3,6 +3,9 @@ package com.nt.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -76,8 +79,18 @@ public class IAppointmentServiceImpl implements IAppointmentService{
 		
 		//return repo.save(app).getId()+" Appointement Updated ";
 	}
+	@Override
+	public Page<Appointment> getAppointmentByPageWithUser(Pageable pagaeble,User user) 
+	{
+		List<Appointment> list=repo.getAppointmentByUser(user);
+		Page page=new PageImpl<Appointment>(list, pagaeble, list.size());
+		
+		return page;
+	}
 
 
+	
+	
 	
 
 }

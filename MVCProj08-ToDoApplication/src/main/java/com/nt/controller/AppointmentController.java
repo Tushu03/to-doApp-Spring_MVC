@@ -1,11 +1,13 @@
 package com.nt.controller;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,22 +31,24 @@ public class AppointmentController
 	private IAppointmentService service;
 	
 	@RequestMapping("/dashboard")
-	public String backToDashboard(@RequestParam(required = false) String sort,HttpSession session,Model model) {
+	public String backToDashboard(@PageableDefault(page = 0,size = 4) Pageable pageable,@RequestParam(required = false) String sort,HttpSession session,Model model) {
 		 User user = (User) session.getAttribute("loggeduser");
 		    if (user != null) {
-		        List<Appointment> appointments = service.getAppointmentsByUser(user);
+		    	Page<Appointment> page=service.getAppointmentByPageWithUser(pageable,user);
+		    	
+		    	
 		        if (sort != null) {
 		            switch (sort) {
 		                case "title":
-		                    appointments.sort((a1,a2)->a1.getTitle().compareTo(a2.getTitle()));
+		                    page.stream().sorted((a1,a2)->a1.getTitle().compareTo(a2.getTitle()));
 		                    break;
 		                case "date":
-		                    appointments.sort(Comparator.comparing(Appointment::getAppDate));
+		                    page.stream().sorted(Comparator.comparing(Appointment::getAppDate));
 		                    break;
 		            }
 		        }
 		        model.addAttribute("user", user.getName());
-		        model.addAttribute("appointments", appointments);
+		        model.addAttribute("appointments", page);
 		    }
 		    return "dashboard";
 		
@@ -133,6 +137,7 @@ public class AppointmentController
 	@PostMapping("/appointments/edit")
 	public String editAppointment(@ModelAttribute("app") Appointment app, RedirectAttributes redir) 
 	{
+		
 		try {
 			String msg=service.editAppointementByApp(app);
 			redir.addFlashAttribute("successMsg",msg);

@@ -8,11 +8,11 @@
 		<version>3.4.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>MVCProj07-2WayBindingUsingSpringTags</groupId>
-	<artifactId>MVCProj07-2WayBindingUsingSpringTags</artifactId>
+	<groupId>MVCProj08-TodoApplication-Pagination</groupId>
+	<artifactId>MVCProj08-TodoApplication-Pagination</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>MVCProj07-2WayBindingUsingSpringTags</name>
+	<name>MVCProj08-TodoApplication-Pagination</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

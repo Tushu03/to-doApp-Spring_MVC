@@ -2,6 +2,9 @@ package com.nt.modal;
 
 import java.time.LocalDateTime;
 
+
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
@@ -23,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 @Table(name = "APPOINTMENTS")
 @RequiredArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql="update appointments set status='inactive' where id=?")
+@SQLRestriction("status <> 'inactive'")
 public class Appointment 
 {
 	
@@ -45,5 +50,6 @@ public class Appointment
 	@JoinColumn(name = "user_id")	
 	private User user;
 	
+	private String status="active";
 
 }

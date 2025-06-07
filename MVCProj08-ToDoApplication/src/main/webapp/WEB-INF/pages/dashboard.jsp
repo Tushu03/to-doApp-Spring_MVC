@@ -58,7 +58,7 @@
 
                 </div>
                 <div class="mt-3">
-	                <c:if test="${not empty appointments}">
+	                <c:if test="${not empty appointments.getContent()}">
 						    <h4>Your Appointments</h4>
 						    <table class="table caption-top table-hover">
 						    	<thead>
@@ -78,7 +78,7 @@
 								    	</th>
 							    	
 							    	</tr>
-							    	<c:forEach var="appointment" items="${appointments}">
+							    	<c:forEach var="appointment" items="${appointments.getContent()}">
 						            <tr>
 						            	 <td>${appointment.title} </td>
 						                
@@ -95,6 +95,30 @@
 						    	</thead>
 						    	
 						    </table>
+						    <center>
+						    	<c:if test="${appointments.hasPrevious()}">
+						    		<a href="dashboard?page=${appointments.getPageable().getPageNumber()-1}">prev</a>
+						    	</c:if>
+						    	<c:if test="${not appointments.isFirst()}">
+						    		<a href="dashboard?page=0">first</a>
+						    	</c:if>
+						    	
+						    	<c:forEach var="i" begin="1" end="${appointments.getTotalPages()-1}" step="1">
+						    		[<a href="dashboard?page=${i-1}">${i}</a>]
+						    	</c:forEach>
+						    	
+						    	<c:if test="${not appointments.isLast()}">
+						    		<a href="dashboard?page=${appointments.getTotalPages()-1}">last</a>
+						    	</c:if>
+						    	
+						    	<c:if test="${appointments.hasNext()}">
+						    		<a href="dashboard?page=${appointments.getPageable().getPageNumber()+1}">last</a>
+						    	</c:if>
+						    	
+						    	
+						    	
+						    </center>
+						    
 						    
 					</c:if>
 	
